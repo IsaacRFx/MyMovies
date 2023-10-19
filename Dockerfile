@@ -65,8 +65,8 @@ USER appuser
 
 WORKDIR /home/appuser/app/movies/
 
-RUN export DJANGO_SETTINGS_MODULE="mymovies.settings"
-    # && python manage.py collectstatic --noinput - Render doesn't like this setting
+RUN export DJANGO_SETTINGS_MODULE="mymovies.settings" \
+    && python manage.py collectstatic --noinput
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
