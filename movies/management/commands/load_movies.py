@@ -63,7 +63,6 @@ class Command(BaseCommand):
                             place_of_birth=actor_data["place_of_birth"],
                             profile_path=actor_data["profile_path"],
                         )
-                        print(actor_item, movie_item)
 
                         credit_item = MovieCredit.objects.get_or_create(
                             actor=actor_item[0],
@@ -71,11 +70,8 @@ class Command(BaseCommand):
                             role=cast["character"]
                         )
 
-                    movie_credits = movie_item[0].credits.all()
-                    for credit in movie_credits.get_queryset():
-                        print(f"Actor: {credit.actor} - Movie: {credit.movie}, Role: {credit.role}")
-                    # print(f"Movie genres: {movie_item[0].genres.all()}")
-
+                    print(f"Movie cast: {movie_item[0].credits.all()}")
+                    print(f"Movie genres: {movie_item[0].genres.all()}")
                     print(f"Movie {movie['title']} created")
 
                 except IntegrityError:
