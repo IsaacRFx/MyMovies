@@ -1,0 +1,14 @@
+{% extends "movies/base.html" %}
+
+{% block title %}Registro de usuario{% endblock %}
+{% load crispy_forms_tags %} {% block content %}
+<form method="post">
+    <div class="mx-auto" style="width: 85%;">
+    {% csrf_token %}{{form|crispy}} 
+        <div class="text-center">
+            <p>¿Tienes una cuenta? <a href="/sign-up">Inicia sesión</a></p>
+            <button type="submit" class="btn btn-success">Crear cuenta</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
