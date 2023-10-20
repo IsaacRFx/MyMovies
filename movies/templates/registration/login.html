@@ -1,0 +1,14 @@
+{% extends "movies/base.html" %}
+
+{% block title %}Login{% endblock %}
+{% load crispy_forms_tags %} {% block content %}
+<form method="post" class="center-block">
+    <div class="mx-auto" style="width: 85%;">
+    {% csrf_token %}{{form|crispy}}
+    <div class="text-center">
+    <p>¿Eres nuevo? <a href="/sign-up">Crea una cuenta</a></p>
+    <button type="submit" class="btn btn-success">Login</button>
+</div>
+</div>
+</form>
+{% endblock %}
