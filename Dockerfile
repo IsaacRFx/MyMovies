@@ -72,4 +72,4 @@ ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
 
 
-CMD gunicorn --bind 0.0.0.0:$PORT mymovies.wsgi
+CMD gunicorn --bind 0.0.0.0:$PORT mymovies.wsgi -w 2 --reload
