@@ -46,6 +46,7 @@ class Movie(models.Model):
     poster_path = models.URLField(blank=True)
     genres = models.ManyToManyField(Genre)
     credits = models.ManyToManyField(Actor, through="MovieCredit", related_name="credits")
+    recommendations = models.ManyToManyField("self", blank=True)
 
     def __str__(self):
         return self.title
