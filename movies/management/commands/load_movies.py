@@ -52,7 +52,7 @@ class Command(BaseCommand):
                         movie_item[0].genres.add(genre_item)
                     
                     for cast in movie_data["credits"]["cast"][:20]:
-                        actor_request = requests.get(f"{api_base_url}/person/{cast['id']}", headers=headers)
+                        actor_request = requests.get(f"{api_base_url}/person/{cast['id']}", headers=headers, params=payload)
                         actor_data = actor_request.json()
                         actor_item = Actor.objects.get_or_create(
                             tmdb_actor_id=actor_data["id"],
