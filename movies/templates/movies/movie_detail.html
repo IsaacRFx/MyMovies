@@ -1,0 +1,22 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block title %}My movies{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-column overflow-hidden home-container">
+    <h1 class="display-4 text-center">La pelicula</h1>
+    <div class="d-flex justify-content-between p-5 overflow-auto movie-container">
+        <img class="img-fluid rounded" style="max-width: 200px; height: auto;" src="https://image.tmdb.org/t/p/original{{ credits.first.movie.poster_path }}"/>
+        <p>{{ credits.first.movie.title }}</p>
+        <p>{{ credits.first.movie.overview }}</p>
+        {% for credit in credits %}        
+            <div class="img-thumbnail movie-item">
+                <span class="">{{ credit.actor.name }}</span>
+                <a href="/actor/{{credit.actor.tmdb_actor_id}}"class="btn btn-primary">Ver más</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

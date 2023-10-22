@@ -1,0 +1,16 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block title %}My movies{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-column overflow-hidden home-container">
+    <h1 class="display-4 text-center">La pelicula</h1>
+    <div class="d-flex justify-content-between p-5 overflow-auto movie-container">
+        <img class="img-fluid rounded" style="max-width: 200px; height: auto;" src="https://image.tmdb.org/t/p/original{{ actor.profile_path }}"/>
+        <p>{{ actor.name }}</p>
+        <p>{{ actor.birthday }}</p>
+        <p>{{ actor.biography }}</p>
+        
+    </div>
+</div>
+{% endblock %}
