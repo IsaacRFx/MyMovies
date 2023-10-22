@@ -1,0 +1,22 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block title %}My movies{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-column overflow-hidden home-container">
+    <h1 class="display-4 text-center">{{ actor.name }}</h1>
+    <div class="movie-detail-first-section">
+        <img class="img-fluid rounded movie-detail-img" src={% if actor.profile_path%} "https://image.tmdb.org/t/p/original{{ actor.profile_path }}" {% else %} "https://static.vecteezy.com/system/resources/previews/012/184/749/original/line-drawing-cartoon-question-mark-free-vector.jpg" {% endif %} />
+        <div class="movie-detail-info">            
+            <p class="lead">Cumpleaños: {{ actor.birthday }}</p>
+            <p class="lead">Lugar de nacimiento: {{ actor.place_of_birth }}</p>
+            <p class="lead">Genero: {{ actor.get_gender_display }}</p> 
+        </div>
+        
+    </div>
+    {% if actor.biography %}
+        <h2 class="text-center">Biografia</h2>
+        <p class="lead actor-bio">{{ actor.biography }}</p>
+    {% endif %}
+</div>
+{% endblock %}
