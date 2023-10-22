@@ -8,12 +8,16 @@
     <div class="d-flex justify-content-between p-5 overflow-auto movie-container-carrusel">
         {% for movie in movies %}
         <div class="img-thumbnail movie-item">
-            <img class="img-fluid rounded" style="max-width: 200px; height: auto;" src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"/>
-            <p>{{ movie.title }}</p>
+            <img class="img-fluid rounded movie-img" src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"/>
+            <div class="movie-info d-flex">
+                <span class="movie-title">{{ movie.title }}</span>
+                <div class="movie-item-genre-container">
             {% for genre in movie.genres.all %}
-                <span class="">{{ genre.name }}</span>
+                <span class="movie-item-genre">{{ genre.name }}</span>
             {% endfor %}
-            <a href="/movie/{{movie.tmdb_movie_id}}" class="btn btn-primary">Ver más</a>
+        </div>
+            <a href="/movie/{{movie.tmdb_movie_id}}" class="btn btn-primary movie-button">Ver más</a>
+            </div>
         </div>
         {% endfor %}
     </div>
