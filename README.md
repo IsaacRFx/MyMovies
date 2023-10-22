@@ -26,3 +26,12 @@ https://www.youtube.com/watch?v=uvvEjtvUVqQ
 * Deployment
   1. Deployed on a container on EC2 instance, accessable through [custom dns](gutelekture.ddns.net:8000/) (when EC2 instance is active)
   2. Using RDS database (Postgres)
+
+## Example .env (in case you want to run this project)
+
+```
+TMDB_READ_ACCESS_TOKEN='<YOUR-TMDB-ACCESS-TOKEN>'
+TMDB_API_BASE_URL='https://api.themoviedb.org/3'
+ENVIRONMENT=True|False (DEBUG|PROD)
+ALLOWED_HOSTS='localhost'
+```
