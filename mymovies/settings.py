@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-v8kw0%hkt^((905@4k4r!kg3q+p!xr3^i@b%0$9kmp&&+uy#-k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("ENVIRONMENT", cast=bool, default=False)
 
-ALLOWED_HOSTS = [config("ALLOWED_HOSTS", cast=Csv())]
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 
 # Application definition
@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-} if not config("SQL_HOST") else {
+} if not config("SQL_HOST", False) else {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config("SQL_DATABASE"),
@@ -97,7 +97,7 @@ DATABASES = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS=[config("ALLOWED_HOSTS", cast=Csv())]
+CSRF_TRUSTED_ORIGINS= [f"http://{origin}" for origin in config('ALLOWED_HOSTS', cast=Csv())]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
