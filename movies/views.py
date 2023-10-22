@@ -26,11 +26,11 @@ def fetch_recommended_movies(movie_obj: Movie):
         "total_results": 5
     }
     response = requests.get(f"{api_base_url}/movie/{movie_obj.tmdb_movie_id}/recommendations", headers=headers, params=payload)
-    movies = json.loads(response)
+    movies = response.json()
     return movies
     
 
-def fetch_selected_movie(movie_obj: Movie):
+def fetch_selected_movie(movie_obj: int):
     try:
         api_base_url = config("TMDB_API_BASE_URL")
         headers = {
@@ -42,7 +42,7 @@ def fetch_selected_movie(movie_obj: Movie):
             "append_to_response": "credits"
         }
 
-        movie_request = requests.get(f"{api_base_url}/movie/{movie_obj.tmdb_movie_id}", headers=headers, params=payload)
+        movie_request = requests.get(f"{api_base_url}/movie/{movie_obj}", headers=headers, params=payload)
         movie_data = movie_request.json()
 
         movie_item = Movie.objects.get_or_create(
@@ -55,14 +55,13 @@ def fetch_selected_movie(movie_obj: Movie):
             revenue = movie_data["revenue"],
             poster_path = movie_data["poster_path"],
         )
-        print(f"Created {movie_data['title']}")
         if movie_item[1] is True: # If movie was created
             for genre in movie_data["genres"]:
                 genre_item = Genre.objects.get(tmdb_genre_id=genre["id"])
                 movie_item[0].genres.add(genre_item)
 
         for cast in movie_data["credits"]["cast"][:10]:
-            actor_request = requests.get(f"{api_base_url}/person/{cast['id']}", headers=headers)
+            actor_request = requests.get(f"{api_base_url}/person/{cast['id']}", headers=headers, params=payload)
             actor_data = actor_request.json()
             actor_item = Actor.objects.get_or_create(
                 tmdb_actor_id=actor_data["id"],
@@ -76,32 +75,36 @@ def fetch_selected_movie(movie_obj: Movie):
 
             credit_item = MovieCredit.objects.get_or_create(
                 actor=actor_item[0],
-                movie=movie_obj,
+                movie=movie_item[0],
                 role=cast["character"]
             )
-            print(f"Actor {actor_item[0]} added to {movie_obj} recommendations")
 
     except Exception as e:
         print(e)
 
 def get_movie_recommended(movie_id: int):
-    movie = Movie.objects.get(tmdb_movie_id=movie_id)
+    try:
+        movie = Movie.objects.get(tmdb_movie_id=movie_id)
+    except Movie.DoesNotExist:
+        print("Movie does not exist")
     return fetch_recommended_movies(movie)
 
 def get_movie_credits(movie_id: int):
-    movie = Movie.objects.get(tmdb_movie_id=movie_id)
+    try:
+        movie = Movie.objects.get(tmdb_movie_id=movie_id)
+    except Movie.DoesNotExist:
+        print("Movie does not exist")
+    fetch_selected_movie(movie_id)
 
-    if not movie.credits.all():
-        fetch_selected_movie(movie)
-
-    credits = MovieCredit.objects.filter(movie=movie)
+    credits = MovieCredit.objects.filter(movie__tmdb_movie_id=movie_id)
 
     return credits
 
 
 def home(request):
     movies = Movie.objects.all()
-    return render(request, 'movies/home.html', context={'movies': movies})
+    actors = Actor.objects.all()
+    return render(request, 'movies/home.html', context={'movies': movies, 'actors': actors})
 
 def sign_up(request):
     if request.method == 'POST':
@@ -116,14 +119,12 @@ def sign_up(request):
     return render(request, 'registration/sign_up.html', context={'form': form})
 
 def movie_detail(request, movie_id):
-    # credits = get_movie_credits(movie_id)
-    request.GET.get('fh')
-    
     credits = get_movie_credits(movie_id)
     recommended = get_movie_recommended(movie_id)
     reviews = MovieReview.objects.filter(movie__tmdb_movie_id=movie_id)
     return render(request, 'movies/movie_detail.html', context={'credits': credits, 'recommended': recommended, 'reviews': reviews})
 
+@login_required
 def movie_review(request, movie_id):
     if request.method == 'POST':
         review = MovieReview()

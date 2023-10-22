@@ -179,6 +179,65 @@ body {
     width: 80%;
 }
 
+form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 80%;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 80%;
+}
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #888;
+    border-radius: 0.5rem;
+    background-color: #fefefe;
+    color: #131313;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+.review-button {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.review-button:hover {
+    background-color: #888;
+    color: #000;
+}
+
+/* Actor styles */
+.actor-bio {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    gap: 1rem;
+    padding: 2rem 0;
+    text-align: justify;
+}
+
 @media (max-width: 768px) {
     .home-container {
         padding: 1rem;

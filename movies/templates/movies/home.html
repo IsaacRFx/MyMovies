@@ -24,10 +24,16 @@
 </div>
 
 <div class="d-flex flex-column overflow-hidden home-container">
-    <h1 class="display-4 text-center">Películas recomendadas</h1>
+    <h1 class="display-4 text-center">Actores</h1>
     <div class="flex-fill p-3 overflow-auto movie-container">
-        {% for movie in movies %}
-            <img class="img-fluid img-thumbnail" style="max-width: 200px; height: auto;" src="https://image.tmdb.org/t/p/original{{ movie.poster_path }}"/>
-        {% endfor %}
+        {% for actor in actors %}        
+        <div class="img-thumbnail movie-item">
+            <img class="img-fluid rounded actor-img" src= {% if actor.profile_path%} "https://image.tmdb.org/t/p/original{{ actor.profile_path }}" {% else %} "https://static.vecteezy.com/system/resources/previews/012/184/749/original/line-drawing-cartoon-question-mark-free-vector.jpg" {% endif %} />
+            <div class="movie-detail-actor-info">
+                <span class="movie-detal-actor-name">{{ actor.name }}</span>
+                <a href="/actor/{{actor.tmdb_actor_id}}"class="btn btn-primary movie-detail-actor-button">Ver más</a>
+            </div>
+        </div>
+    {% endfor %}
     </div>
 {% endblock %}
