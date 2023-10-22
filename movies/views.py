@@ -112,7 +112,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save() # Save user
             login(request, user)
-            return redirect('/home')
+            return redirect('/')
     else:
         form = SignUpForm()
 
