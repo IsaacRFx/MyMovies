@@ -121,7 +121,20 @@ def movie_detail(request, movie_id):
     
     credits = get_movie_credits(movie_id)
     recommended = get_movie_recommended(movie_id)
-    return render(request, 'movies/movie_detail.html', context={'credits': credits, 'recommended': recommended})
+    reviews = MovieReview.objects.filter(movie__tmdb_movie_id=movie_id)
+    return render(request, 'movies/movie_detail.html', context={'credits': credits, 'recommended': recommended, 'reviews': reviews})
+
+def movie_review(request, movie_id):
+    if request.method == 'POST':
+        review = MovieReview()
+        review.user = request.user
+        review.movie = Movie.objects.get(tmdb_movie_id=movie_id)
+        review.review = request.POST['review']
+        review.rating = request.POST['rating']
+        review.save()
+        return redirect('movie_detail', movie_id=movie_id)
+    else:
+        return render(request, 'movies/review.html', context={'movie_id': movie_id})
 
 def actor_detail(request, actor_id):
     actor = Actor.objects.get(tmdb_actor_id=actor_id)

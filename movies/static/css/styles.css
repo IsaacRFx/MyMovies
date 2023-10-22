@@ -45,18 +45,139 @@ body {
     justify-content: center;
     gap: 2rem;
 }
-.movie-item p{
+.movie-title {
     color: #131313;
     font-size: 1rem;
     padding-top: 1rem;
     text-shadow : 0 0 0 #000;
 }
 
-.movie-item span{
-    color: #888;
-    font-size: 1rem;
+.movie-img {
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+.movie-info {
+    min-height: calc(100% - 300px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 1rem;
+    background-color: #fefefe;
+    transition: all 0.3s ease-in-out;
 }
 
+.movie-item-genre-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.movie-item-genre{
+    color: #888;
+    font-size: 0.75rem;
+}
+.movie-button {
+    background-color: #131313;
+    color: #fefefe;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.movie-button:hover {
+    background-color: #888;
+}
+
+/* Movie page styles */
+.movie-detail {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.movie-detail-first-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    gap: 1rem;
+    padding: 2rem 0;
+}
+
+.movie-detail-img {
+    max-width: 350px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+.actor-img {
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+.movie-detail-actor-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+.movie-detal-actor-name {
+    color: #000;
+    font-size: 1rem;
+    padding-top: 1rem;
+    text-shadow : 0 0 0 #000;
+}
+.movie-detal-actor-character {
+    color: #888;
+    font-size: 0.75rem;
+    text-shadow : 0 0 0 #000;
+}
+.movie-detail-actor-button {
+    background-color: #131313;
+    color: #fefefe;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.movie-detail-actor-button:hover {
+    background-color: #888;
+}
+
+/* Review section */
+.reviews {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+.review-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 80%;
+}
 
 @media (max-width: 768px) {
     .home-container {

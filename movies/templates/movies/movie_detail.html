@@ -3,20 +3,71 @@
 {% block title %}My movies{% endblock %}
 {% block content %}
 
-<div class="d-flex flex-column overflow-hidden home-container">
-    <h1 class="display-4 text-center">La pelicula</h1>
-    <div class="d-flex justify-content-between p-5 overflow-auto movie-container">
-        <img class="img-fluid rounded" style="max-width: 200px; height: auto;" src="https://image.tmdb.org/t/p/original{{ credits.first.movie.poster_path }}"/>
-        <p>{{ credits.first.movie.title }}</p>
-        <p>{{ credits.first.movie.overview }}</p>
-        {% for credit in credits %}        
-            <div class="img-thumbnail movie-item">
-                <span class="">{{ credit.actor.name }}</span>
-                <a href="/actor/{{credit.actor.tmdb_actor_id}}"class="btn btn-primary">Ver más</a>
+<div class="movie-detail">
+    <div class="d-flex flex-column overflow-hidden home-container">
+        <h1 class="display-4 text-center">{{credits.first.movie.title}}</h1>
+        <div class="movie-detail-first-section">
+            <img class="img-fluid rounded movie-detail-img" src="https://image.tmdb.org/t/p/original{{ credits.first.movie.poster_path }}"/>
+            <div class="movie-detail-info">
+                <p><strong>Fecha de salida:</strong> {{ credits.first.movie.release_date }}</p>
+                <p><strong>Duracion:</strong> {{ credits.first.movie.running_time }} minutes</p>
+                <p><strong>Genero:</strong> {% for genre in credits.first.movie.genres.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <p><strong>Budget:</strong> ${{ credits.first.movie.budget }}</p>
+                <p><strong>Revenue:</strong> ${{ credits.first.movie.revenue }}</p>
+                <h2>Sinopsis</h2>
+                <p>{{ credits.first.movie.overview }}</p>
             </div>
-        {% endfor %}
+        </div>
+        <div class="d-flex justify-content-between p-5 overflow-auto movie-container-carrusel">
+            {% for credit in credits %}        
+                <div class="img-thumbnail movie-item">
+                    <img class="img-fluid rounded actor-img" src="https://image.tmdb.org/t/p/original{{ credit.actor.profile_path }}"/>
+                    <div class="movie-detail-actor-info">
+                        <span class="movie-detal-actor-name">{{ credit.actor.name }}</span>
+                        <span class="movie-detal-actor-character">{{ credit.role }}</span>
+                        <a href="/actor/{{credit.actor.tmdb_actor_id}}"class="btn btn-primary movie-detail-actor-button">Ver más</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
+    <h1 class="display-4 text-center">Reviews</h1>
+    <div class ="reviews">   
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="card review-card">
+                    <div class="card-body review-container">
+                        <h5 class="bi bi-star-fill">{{ review.user }}</h5>
+                        <p class="card-text">{{ review.review }}</p>
+                        <p class="card-text">{{ review.rating }}/5</p>
+                        <div class="rating-star">
+                            {% load utils %}
+                            {% for star in review.rating|times %}
+                                <span class="bi bi-star-fill">★</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No reviews yet</p>
+        {% endif %}
+    </div>
 
+    <h1 class="display-4 text-center">Add a review</h1>
+    <form method="POST" action="/movie/{{ credits.first.movie.tmdb_movie_id }}/review">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="review">Review</label>
+            <textarea class="form-control" id="review" name="review" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <input type="number" class="form-control" id="rating" name="rating" min="1" max="5">
+        </div>
+        <input type="hidden" name="movie_id" value="{{ credits.first.movie.tmdb_movie_id }}">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
 {% endblock %}
