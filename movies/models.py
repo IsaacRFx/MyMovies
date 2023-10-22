@@ -25,10 +25,10 @@ class Actor(models.Model):
     tmdb_actor_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=128)
     gender = models.PositiveSmallIntegerField(default=0, choices=GENDER_CHOICES)
-    biography = models.TextField(blank=True)
+    biography = models.TextField(blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    place_of_birth = models.CharField(max_length=128, blank=True)
-    profile_path = models.URLField(blank=True)
+    place_of_birth = models.CharField(max_length=128, blank=True, null=True)
+    profile_path = models.URLField(blank=True, null=True)
 
 
     def __str__(self):
@@ -38,15 +38,14 @@ class Actor(models.Model):
 class Movie(models.Model):
     tmdb_movie_id = models.IntegerField(blank=True, unique=True)
     title = models.CharField(max_length=200)
-    overview = models.TextField()
-    release_date = models.DateField()
-    budget = models.IntegerField(blank=True)
+    overview = models.TextField(blank=True, null=True)
+    release_date = models.DateField(null=True, blank=True)
+    budget = models.IntegerField(blank=True, null=True)
     running_time = models.IntegerField(default=0)
-    revenue = models.IntegerField(blank=True)
+    revenue = models.IntegerField(blank=True, null=True)
     poster_path = models.URLField(blank=True)
     genres = models.ManyToManyField(Genre)
     credits = models.ManyToManyField(Actor, through="MovieCredit", related_name="credits")
-    recommendations = models.ManyToManyField("self", blank=True)
 
     def __str__(self):
         return self.title
